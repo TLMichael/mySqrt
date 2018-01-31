@@ -13,24 +13,22 @@ import matplotlib.pyplot as plt
 import time
 
 
-def myfun(x):
-    return x * x
-
-def plotfuck(num):
+def plot_fuck(num):
     # 画出函数图
     plt.figure(1)
     x = np.linspace(0, num * 1.3, 1000)
-    y = [myfun(i) - num for i in x]
+    y = [i * i - num for i in x]
     ax1.plot(x, y)
     ax1.plot(x, x * 0, 'k')
     fig.show()
 
 
-def plotline(a, num):
+def plot_line(a, num):
     x = np.linspace(a, a, 100)
-    y = np.linspace(0, myfun(a) - num, 100)
+    y = np.linspace(0, a*a - num, 100)
     ax1.plot(x, y, 'r-')
     fig.show()
+
 
 # 画切线
 def plot_tangent(x0, x1, k):
@@ -39,25 +37,27 @@ def plot_tangent(x0, x1, k):
     ax1.plot(x, y, 'r')
     fig.show()
 
+
 def fuck(num):
     ax1.cla()
-    plotfuck(num)
+    plot_fuck(num)
 
-    a = num
-    plotline(a, num)
+    res = num
+    last_res = -1
+    plot_line(res, num)
     count = 0
-    while abs(myfun(a) - num) > 1.0e-5 :
-        k = 2 * a
-        x = -(myfun(a) - num) / k + a
-        plot_tangent(x, a, k)
-        plotline(x, num)
+    while abs(last_res - res) > 1.0e-5:
+        last_res = res
+        res = (res + num / res) / 2
+
+        plot_tangent(res, last_res, 2 * last_res)
+        plot_line(res, num)
         time.sleep(0.3)
-        a = x
         count += 1
         # if nn % 1000 == 0:
         #     print (nn, ' ', a)
     print(count)
-    return a
+    return res
 
 class Application(Frame):
     def __init__(self, master=None):
