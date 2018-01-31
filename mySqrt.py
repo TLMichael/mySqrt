@@ -27,7 +27,6 @@ def plotfuck(num):
 
 
 def plotline(a, num):
-    plt.figure(1)
     x = np.linspace(a, a, 100)
     y = np.linspace(0, myfun(a) - num, 100)
     ax1.plot(x, y, 'r-')
